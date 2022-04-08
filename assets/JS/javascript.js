@@ -10,13 +10,9 @@ var timeArray = ["9:00AM", "10:00AM", "11:00AM", "12:00PM", "1:00PM", "2:00PM", 
 
 var timeArray2 = ["9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM"]
 
-console.log(moment(timeArray[0],"LT").format("HH"));
-
 var textArray = []
 
 timePlanner();
-
-console.log(localStorage.getItem("9AM"));
 
 function timePlanner() {
     for (i = 0; i < timeArray.length; i++) {
@@ -32,6 +28,7 @@ function timePlanner() {
         rowDiv.append(textarea);
         textarea.addClass("col-md-10 description");
         textarea.attr("id", timeArray[i]);
+        textarea.val(localStorage.getItem(timeArray2[i]));
         var time = moment(timeArray[i], "LT").format("HH");
         if (time > hourOfDay) {
             textarea.addClass("future");
