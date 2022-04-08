@@ -6,11 +6,19 @@ var hourOfDay = moment().hour();
 
 var container = $(".container");
 
-timeCoverter();
+var timeArray = ["9:00AM", "10:00AM", "11:00AM", "12:00PM", "1:00PM", "2:00PM", "3:00PM", "4:00PM", "5:00PM"]
 
-function timeCoverter() {
-    var timeArray = ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00pm"]
-    
+var timeArray2 = ["9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM"]
+
+console.log(moment(timeArray[0],"LT").format("HH"));
+
+var textArray = []
+
+timePlanner();
+
+console.log(localStorage.getItem("9AM"));
+
+function timePlanner() {
     for (i = 0; i < timeArray.length; i++) {
         var rowDiv = $("<div>");
         container.append(rowDiv);
@@ -19,9 +27,11 @@ function timeCoverter() {
         div1.text(timeArray[i]);
         rowDiv.append(div1);
         div1.addClass("col hour time-block");
+        div1.attr("id", timeArray2[i]);
         var textarea = $("<textarea>");
         rowDiv.append(textarea);
         textarea.addClass("col-md-10 description");
+        textarea.attr("id", timeArray[i]);
         var time = moment(timeArray[i], "LT").format("HH");
         if (time > hourOfDay) {
             textarea.addClass("future");
@@ -42,5 +52,12 @@ function timeCoverter() {
     };
 };
 
-// we'll also need to add an event listener to the save buttons that runs a function which logs the textarea to localStorage once it's clicked.
-    //to do this we'll start off with an empty array and every time the save button is clicked we log an object with two key-value pairs per object. The first pair being {hour: current hour}, and second pair being {text: whatever was typed into textarea}.
+$("button").on('click', saveToLocalStorage);
+    
+function saveToLocalStorage() {
+    console.log($(this).siblings("textarea").val());
+    console.log($(this).siblings("div").attr("id"));
+    var userInput = $(this).siblings("textarea").val();
+    var currentHour = $(this).siblings("div").attr("id");
+    localStorage.setItem(currentHour, userInput);
+};
